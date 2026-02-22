@@ -1,13 +1,22 @@
 {
- "background_color": "#ffffff",
-  "dir": "ltr",
-  "display": "standalone",
   "name": "Penguen Yalnızlığı",
-  "orientation": "any",
-  "scope": "/",
   "short_name": "Penguen",
-  "start_url": "/",
-  "theme_color": "#ffffff",
-  "id": "com.nov.penguenyalnizligi",
-  "description": "Sürüden ayrılan penguenin sonsuz buz yolculuğu. Zıpla, kay, balık topla, hayatta kal. Ne kadar ilerlersen o kadar yalnızlaşır ama güçlenirsin."
+  "description": "Sonsuz buz yolculuğu",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
