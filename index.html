@@ -870,34 +870,40 @@
             if (navigator.vibrate) navigator.vibrate(pattern);
         }
         
+        let touchJumped = false;
+
         canvas.addEventListener('touchstart', (e) => {
             touchStartY = e.touches[0].clientY;
             touchStartTime = Date.now();
+            touchJumped = false;
+
+            if (jumpCount < maxJumps) {
+                const power = jumpCount === 0 ? penguin.jumpPower : penguin.jumpPower * 0.75;
+                penguin.velocity = power;
+                jumpCount++;
+                touchJumped = true;
+                createParticles(penguin.x + 20, penguin.y + 50, '#fff', 3);
+                vibrate(15);
+            }
         }, {passive: true});
-        
-       canvas.addEventListener('touchend', (e) => {
-    const touchEndY = e.changedTouches[0].clientY;
-    const diff = touchStartY - touchEndY;
-    const duration = Date.now() - touchStartTime;
-    
-    // Hızlı aşağı kaydırma = kayma
-    if (diff < -30 && duration < 200) {
-        penguin.sliding = true;
-        penguin.slideTimer = 35;
-        penguin.height = 30;
-        createParticles(penguin.x + 20, penguin.y + 50, '#cbd5e1', 5);
-        vibrate(20);
-    }
-    // Yukarı veya dokunma = zıplama
-    else if (jumpCount < maxJumps) {
-        // İkinci zıplama daha güçlü
-        const power = jumpCount === 0 ? penguin.jumpPower : penguin.jumpPower * 0.75;
-        penguin.velocity = power;
-        jumpCount++;
-        createParticles(penguin.x + 20, penguin.y + 50, '#fff', 3);
-        vibrate(15);
-    }
-}, {passive: true});
+
+        canvas.addEventListener('touchend', (e) => {
+            const touchEndY = e.changedTouches[0].clientY;
+            const diff = touchStartY - touchEndY;
+            const duration = Date.now() - touchStartTime;
+
+            if (diff < -40 && duration < 300) {
+                if (touchJumped) {
+                    jumpCount = Math.max(0, jumpCount - 1);
+                    penguin.velocity = 4;
+                }
+                penguin.sliding = true;
+                penguin.slideTimer = 35;
+                penguin.height = 30;
+                createParticles(penguin.x + 20, penguin.y + 50, '#cbd5e1', 5);
+                vibrate(20);
+            }
+        }, {passive: true});
         
         // Mouse desteği
         canvas.addEventListener('mousedown', (e) => {
