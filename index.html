@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Penguen Yalnızlığı</title>
+    <title>Penguen Yalnızlığı (v2)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" onerror="this.remove()">
     <style>
         * {
@@ -872,7 +872,10 @@
         
         let touchJumped = false;
 
-        canvas.addEventListener('touchstart', (e) => {
+        document.addEventListener('touchstart', (e) => {
+            if (!gameRunning) return;
+            e.preventDefault();
+
             touchStartY = e.touches[0].clientY;
             touchStartTime = Date.now();
             touchJumped = false;
@@ -885,9 +888,10 @@
                 createParticles(penguin.x + 20, penguin.y + 50, '#fff', 3);
                 vibrate(15);
             }
-        }, {passive: true});
+        }, {passive: false});
 
-        canvas.addEventListener('touchend', (e) => {
+        document.addEventListener('touchend', (e) => {
+            if (!gameRunning) return;
             const touchEndY = e.changedTouches[0].clientY;
             const diff = touchStartY - touchEndY;
             const duration = Date.now() - touchStartTime;
@@ -903,7 +907,7 @@
                 createParticles(penguin.x + 20, penguin.y + 50, '#cbd5e1', 5);
                 vibrate(20);
             }
-        }, {passive: true});
+        }, {passive: false});
         
         // Mouse desteği
         canvas.addEventListener('mousedown', (e) => {
